@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres    
+      POSTGRES_PASSWORD: 12345678     
+      POSTGRES_DB: testeTecnico      
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  nestjs:
+    build: .
+    container_name: nestjs-app
+    environment:
+      DATABASE_URL: postgres://postgres:12345678@postgres:5432/testeTecnico
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    volumes:
+      - .:/app
+    command: ["sh", "-c", "until nc -z postgres 5432; do echo Waiting for postgres; sleep 2; done; npx prisma migrate deploy && npm run start:dev"]
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
