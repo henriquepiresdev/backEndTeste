@@ -1,99 +1,121 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Projeto Back-End com NestJS e PostgreSQL
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Pré-requisitos
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Docker (caso queira rodar dentro do Docker)
+- Docker Compose (caso queira rodar dentro do Docker)
+- Node.js (caso queira rodar fora do Docker)
+- npm (caso queira rodar fora do Docker)
+- PostgreSQL (caso queira rodar fora do Docker)
 
-## Description
+## Passos para Iniciar o Projeto
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Rodando a Aplicação Dentro do Docker
 
-## Project setup
+Para rodar a aplicação com Docker, siga os passos abaixo:
+
+#### 1. Clonando o Repositório
+
+Clone o repositório para a sua máquina local:
 
 ```bash
-$ npm install
+git clone https://github.com/henriquepiresdev/backEndTeste.git
+cd backEndTeste
 ```
 
-## Compile and run the project
+#### 2. Configurando as Variáveis de Ambiente
+
+Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
+DATABASE_URL=postgres://postgres:12345678@localhost:5432/testeTecnico
+
+Importante: O arquivo .env não deve ser versionado no Git.
+
+#### 3. Rodando os Containers com Docker Compose
+
+Com o arquivo .env configurado, execute o seguinte comando para construir as imagens do Docker e rodar os containers:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker-compose up --build -d
 ```
 
-## Run tests
+Este comando vai:
+Criar as imagens e iniciar os containers para o PostgreSQL e o NestJS.
+Rodar a aplicação no modo de desenvolvimento.
+Aplicar automaticamente as migrações do banco de dados.
+
+#### 4. Acessando a Aplicação
+
+Com os containers em funcionamento, a aplicação estará acessível em <http://localhost:3000>, e o banco de dados estará rodando no localhost:5432.
+
+### Rodando a Aplicação Fora do Docker
+
+Caso queira rodar a aplicação localmente (fora do Docker), siga os passos abaixo:
+
+#### 1. Clonando o Repositório
+
+Clone o repositório para a sua máquina local:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/henriquepiresdev/backEndTeste.git
+cd backEndTeste
 ```
 
-## Deployment
+#### 2. Instale as Dependências
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Dentro da pasta do projeto, execute:
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm install
+ ```
+
+#### 3. Criando o Banco de Dados Localmente (PostgreSQL)
+
+Certifique-se de ter o PostgreSQL instalado localmente. Caso ainda não tenha, baixe e instale o PostgreSQL.
+
+Depois, crie o banco de dados testeTecnico:
+
+```bash
+psql -U postgres
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Após entrar no psql, execute:
 
-## Resources
+```bash
+CREATE DATABASE testeTecnico;
+ ```
 
-Check out a few resources that may come in handy when working with NestJS:
+#### 4. Configurando as Variáveis de Ambiente
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Crie o arquivo .env na raiz do projeto com a seguinte variável:
 
-## Support
+```env
+DATABASE_URL=postgres://postgres:12345678@localhost:5432/testeTecnico
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Importante: O arquivo .env não deve ser versionado no Git.
 
-## Stay in touch
+#### 5. Rodando as Migrações
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Com o banco de dados criado, aplique as migrações para garantir que o esquema esteja atualizado:
 
-## License
+```bash
+npx prisma migrate dev
+ ```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Este comando irá aplicar as migrações e gerar o cliente Prisma.
+
+#### 6. Rodando a Aplicação
+
+Agora, para rodar a aplicação, execute o comando:
+
+```bash
+npm run start:dev
+ ```
+
+A aplicação estará acessível em <http://localhost:3000>, e o banco de dados estará rodando no localhost:5432.
+
+### Considerações Finais
+
+Lembre-se de não versionar o arquivo .env no Git.
+Se você estiver rodando a aplicação fora do Docker, o banco de dados PostgreSQL precisa estar instalado e rodando localmente.
+Se tiver problemas com a migração ou o banco de dados, verifique se o PostgreSQL está rodando corretamente e se a URL de conexão no .env está correta.
