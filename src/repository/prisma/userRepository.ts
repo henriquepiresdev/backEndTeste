@@ -13,15 +13,18 @@ export class PrismaUserRepository {
     return user;
   }
 
-  async findById(id: number): Promise<User | null> {
+  async getById(id: number): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
     return user;
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.prisma.user.findMany();
+  async getAll(skip: number, take: number) {
+    return this.prisma.user.findMany({
+      skip,
+      take,
+    });
   }
 
   async update(id: number, data: Partial<User>): Promise<User> {
