@@ -6,7 +6,9 @@ import { PrismaService } from 'prisma/prisma.service';
 export class PrismaUserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Omit<User, 'id'>): Promise<User | null> {
+  async create(
+    data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<User | null> {
     const user = await this.prisma.user.create({
       data,
     });
