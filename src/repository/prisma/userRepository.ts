@@ -32,7 +32,9 @@ export class PrismaUserRepository implements UserRepository {
     });
     return users.map(this.convertToUserContract);
   }
-
+  async countUsers(): Promise<number> {
+    return this.prisma.user.count();
+  }
   async update(id: number, data: Partial<UserContract>): Promise<UserContract> {
     const updatedUser = await this.prisma.user.update({
       where: { id },
