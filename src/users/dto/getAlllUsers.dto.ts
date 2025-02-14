@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, Min, IsOptional, IsBoolean, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
+import { UserResponseDto } from './createUser.dto';
 
 export class UserQueryDto {
   @ApiProperty({
@@ -25,54 +26,48 @@ export class UserQueryDto {
   @Min(1)
   limit?: number = 10;
 }
-
-export class UserResponseDto {
+export class PaginatedUserResponseDto {
   @ApiProperty({
-    description: 'ID do usuário',
+    description: 'Número da primeira página.',
     example: 1,
   })
-  @IsInt()
-  id: number;
+  first: number;
 
   @ApiProperty({
-    description: 'Nome do usuário',
-    example: 'João das Neves',
+    description: 'Número da página anterior, se existir.',
+    example: 1,
+    nullable: true,
   })
-  @IsString()
-  name: string;
+  prev?: number | null;
 
   @ApiProperty({
-    description: 'Salário do usuário',
-    example: 50000,
+    description: 'Número da próxima página, se existir.',
+    example: 2,
+    nullable: true,
   })
-  @IsInt()
-  wage: number;
+  next?: number | null;
 
   @ApiProperty({
-    description: 'Valor da empresa',
-    example: 3261,
+    description: 'Número da última página.',
+    example: 9,
   })
-  @IsInt()
-  enterprise: number;
+  last: number;
 
   @ApiProperty({
-    description: 'Indica se o usuário está selecionado',
-    example: true,
+    description: 'Número total de páginas.',
+    example: 9,
   })
-  @IsBoolean()
-  isSelected: boolean;
+  pages: number;
 
   @ApiProperty({
-    description: 'Data de criação do usuário',
-    example: '2025-02-13T12:00:00Z',
+    description: 'Total de itens no banco.',
+    example: 82,
   })
-  @IsString()
-  createdAt: string;
+  items: number;
 
   @ApiProperty({
-    description: 'Data de atualização do usuário',
-    example: '2025-02-13T12:00:00Z',
+    description: 'Lista de usuários.',
+    type: [UserResponseDto],
   })
-  @IsString()
-  updatedAt: string;
+  data: UserResponseDto[];
 }
