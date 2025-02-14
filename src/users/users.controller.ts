@@ -18,7 +18,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserQueryDto } from './dto/getAlllUsers.dto';
+import { PaginatedUserResponseDto, UserQueryDto } from './dto/getAlllUsers.dto';
 import { UpdateUserDto } from './dto/updateUset.dto';
 @ApiTags('Users')
 @Controller('users')
@@ -71,10 +71,13 @@ export class UsersController {
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
   @ApiResponse({
     status: 200,
-    description: 'Lista de usuários retornada com sucesso',
-    type: [UserResponseDto],
+    description: 'Lista de usuários paginada',
+    type: PaginatedUserResponseDto,
+    isArray: false,
   })
-  async getAllUsers(@Query() query: UserQueryDto): Promise<UserResponseDto[]> {
+  async getAllUsers(
+    @Query() query: UserQueryDto,
+  ): Promise<PaginatedUserResponseDto> {
     const { page, limit } = query;
     const users = await this.usersService.getAllUsers(
       Number(page),
