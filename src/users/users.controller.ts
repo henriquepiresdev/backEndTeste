@@ -69,21 +69,23 @@ export class UsersController {
   })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+  @ApiQuery({
+    name: 'isSelected',
+    required: false,
+    type: Boolean,
+    example: true,
+  })
   @ApiResponse({
     status: 200,
     description: 'Lista de usuários paginada',
     type: PaginatedUserResponseDto,
     isArray: false,
   })
-  async getAllUsers(
+  async getUsers(
     @Query() query: UserQueryDto,
   ): Promise<PaginatedUserResponseDto> {
-    const { page, limit } = query;
-    const users = await this.usersService.getAllUsers(
-      Number(page),
-      Number(limit),
-    );
-    return users;
+    const { page, limit, isSelected } = query;
+    return this.usersService.getAllUsers(page, limit, isSelected);
   }
 
   @Patch(':id')

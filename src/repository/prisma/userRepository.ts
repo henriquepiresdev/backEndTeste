@@ -25,15 +25,22 @@ export class PrismaUserRepository implements UserRepository {
     return this.convertToUserContract(user);
   }
 
-  async getAll(skip: number, take: number): Promise<UserContract[]> {
+  async getAll(
+    skip: number,
+    take: number,
+    filter?: { isSelected?: boolean },
+  ): Promise<UserContract[]> {
     const users = await this.prisma.user.findMany({
       skip,
       take,
+      where: filter,
     });
     return users.map(this.convertToUserContract);
   }
-  async countUsers(): Promise<number> {
-    return this.prisma.user.count();
+  async countUsers(filter?: { isSelected?: boolean }): Promise<number> {
+    return this.prisma.user.count({
+      where: filter,
+    });
   }
   async update(id: number, data: Partial<UserContract>): Promise<UserContract> {
     const updatedUser = await this.prisma.user.update({

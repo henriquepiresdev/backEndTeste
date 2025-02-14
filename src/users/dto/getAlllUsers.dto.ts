@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, Min, IsOptional, IsBoolean, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { UserResponseDto } from './createUser.dto';
-
 export class UserQueryDto {
   @ApiProperty({
     description: 'Número da página',
@@ -25,7 +24,17 @@ export class UserQueryDto {
   @IsInt()
   @Min(1)
   limit?: number = 10;
+
+  @ApiProperty({
+    description: 'Filtra os usuários pelo campo isSelected',
+    example: true,
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  isSelected?: boolean;
 }
+
 export class PaginatedUserResponseDto {
   @ApiProperty({
     description: 'Número da primeira página.',

@@ -24,28 +24,43 @@ export class UsersService {
   async getAllUsers(
     page: number = 1,
     limit: number = 10,
+    isSelected?: boolean,
   ): Promise<PaginatedUserResponseDto> {
     const validPage = Math.max(1, page);
     const validLimit = Math.max(1, limit);
     const skip = (validPage - 1) * validLimit;
 
+    const filter =
+      isSelected !== undefined
+        ? {
+            isSelected:
+              typeof isSelected === 'string'
+                ? isSelected === 'true'
+                : Boolean(isSelected),
+          }
+        : {};
+
     const [users, totalItems] = await Promise.all([
-      this.userRepository.getAll(skip, validLimit),
-      this.userRepository.countUsers(),
+      this.userRepository.getAll(skip, validLimit, filter),
+      this.userRepository.countUsers(filter),
     ]);
 
     const totalPages = Math.ceil(totalItems / validLimit);
 
+    const prev = validPage > 1 ? validPage - 1 : null;
+    const next = validPage < totalPages ? validPage + 1 : null;
+
     return {
       first: 1,
-      prev: validPage > 1 ? validPage - 1 : null,
-      next: validPage < totalPages ? validPage + 1 : null,
+      prev,
+      next,
       last: totalPages,
       pages: totalPages,
       items: totalItems,
       data: users,
     };
   }
+
   async updateUser(id: number, data: Partial<User>): Promise<User> {
     return this.userRepository.update(id, data);
   }
