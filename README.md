@@ -26,7 +26,9 @@ cd backEndTeste
 #### 2. Configurando as Variáveis de Ambiente
 
 Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
+```env
 DATABASE_URL=postgres://postgres:12345678@localhost:5432/testeTecnico
+```
 
 Importante: O arquivo .env não deve ser versionado no Git.
 
