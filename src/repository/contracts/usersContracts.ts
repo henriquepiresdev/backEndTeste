@@ -1,18 +1,29 @@
-import { User } from 'src/@types/entities/entityUser';
+export interface UserContract {
+  id: number;
+  name: string;
+  wage: number;
+  enterprise: number;
+  isSelected: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 export abstract class UserRepository {
   abstract create(
-    data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<User | null>;
+    data: Omit<UserContract, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<UserContract | null>;
 
-  abstract getById(id: number): Promise<User | null>;
+  abstract getById(id: number): Promise<UserContract | null>;
 
   abstract getAll(
     skip: number,
     take: number,
     filter?: { isSelected?: boolean },
-  ): Promise<User[]>;
+  ): Promise<UserContract[]>;
 
-  abstract update(id: number, data: Partial<User>): Promise<User>;
+  abstract update(
+    id: number,
+    data: Partial<UserContract>,
+  ): Promise<UserContract>;
 
   abstract delete(id: number): Promise<void>;
 
