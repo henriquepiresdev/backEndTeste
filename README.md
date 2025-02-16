@@ -27,7 +27,23 @@ cd backEndTeste
 
 Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
 ```env
-DATABASE_URL=postgres://postgres:12345678@localhost:5432/testeTecnico
+NODE_ENV=development
+PORT=3000
+DEBUG=nestjs:*
+
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=12345678
+POSTGRES_DB=testeTecnico
+
+TYPEORM_CONNECTION=postgres
+TYPEORM_ENTITIES=dist/**/*.entity.js
+TYPEORM_MIGRATIONS=dist/migrations/*.js
+TYPEORM_MIGRATIONS_RUN=true
+TYPEORM_SYNCHRONIZE=false
+TYPEORM_LOGGING=true
+
 ```
 
 Importante: O arquivo .env não deve ser versionado no Git.
@@ -53,14 +69,18 @@ Com os containers em funcionamento, a aplicação estará acessível em <http://
 
 Caso queira rodar a aplicação localmente (fora do Docker), siga os passos abaixo:
 
-#### 1. Clonando o Repositório
 
-Clone o repositório para a sua máquina local:
+
+## 🚀 Como rodar o projeto sem Docker
+
+### 1️⃣ Clonando o Repositório
+
+Clone o repositório para sua máquina local:
 
 ```bash
 git clone https://github.com/henriquepiresdev/backEndTeste.git
 cd backEndTeste
-```
+````
 
 #### 2. Instale as Dependências
 
@@ -91,17 +111,32 @@ CREATE DATABASE testeTecnico;
 Crie o arquivo .env na raiz do projeto com a seguinte variável:
 
 ```env
-DATABASE_URL=postgres://postgres:12345678@localhost:5432/testeTecnico
+NODE_ENV=development
+PORT=3000
+DEBUG=nestjs:*
+
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=12345678
+POSTGRES_DB=testeTecnico
+
+TYPEORM_CONNECTION=postgres
+TYPEORM_ENTITIES=dist/**/*.entity.js
+TYPEORM_MIGRATIONS=dist/migrations/*.js
+TYPEORM_MIGRATIONS_RUN=true
+TYPEORM_SYNCHRONIZE=false
+TYPEORM_LOGGING=true
 ```
 
 Importante: O arquivo .env não deve ser versionado no Git.
 
 #### 5. Rodando as Migrações
 
-Com o banco de dados criado, aplique as migrações para garantir que o esquema esteja atualizado:
+Com o banco de dados criado, execute o comando para rodar as migrações:
 
 ```bash
-npx prisma migrate dev
+npx typeorm migration:run --dataSource dist/config/typeorm.config.js
  ```
 
 Este comando irá aplicar as migrações e gerar o cliente Prisma.
