@@ -1,15 +1,17 @@
-import { UserRepository } from 'src/repository/contracts/usersContracts';
+import {
+  UserContract,
+  UserRepository,
+} from '../repository/contracts/usersContracts';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserResponseDto } from './dto/getUserById.dto';
-import { User } from 'src/@types/entities/entityUser';
 import { PaginatedUserResponseDto } from './dto/getAlllUsers.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
   async createUser(
-    data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<User | null> {
+    data: Omit<UserContract, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<UserContract | null> {
     return this.userRepository.create(data);
   }
 
@@ -61,7 +63,10 @@ export class UsersService {
     };
   }
 
-  async updateUser(id: number, data: Partial<User>): Promise<User> {
+  async updateUser(
+    id: number,
+    data: Partial<UserContract>,
+  ): Promise<UserContract> {
     return this.userRepository.update(id, data);
   }
 
